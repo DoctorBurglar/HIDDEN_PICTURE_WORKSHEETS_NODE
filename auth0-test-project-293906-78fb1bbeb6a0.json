@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "auth0-test-project-293906",
+  "private_key_id": "78fb1bbeb6a01415e3294c8e47fd984722c648e5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCt1aADeMMZNNRU\nNXaphfuhPEQrtzVp5RpXfOd3q/hEsogvsyqAscaL3NLRtAZCsx78Nh4PvorZU9p2\ncuaT8IOqK4rBVgRuLdp2lygudlel4f0Xon7NBV0LsvJUB7jtq00pl+/0kbvlz6mY\nbiksi1XdJSEXDJ0Y7Mqtb+o2PayxjRjxMcQq85vgRrz4HwODqi1UFj9oGX7BwaqY\nbMtOHFlwUA2L467eHuXf9cObEu73SkcO1PFEiYXJKrouAehA0kGZuc5h4xqREImn\nTJbvaV6mjo/E9O07B+cqkiZY4Lr0kaLSeQA1CgJEN6PlomyCx/dYh1OSSeWSpsHp\nmmvyoXAnAgMBAAECggEAM1xodE4ketiYma7YOhtLryZyz+XIQtr9rvbJHxsw9f83\n7LwHpVGhY6ahpXMG3IM29vb4Z9d5B+BWLmQhi3lnNYq66wfCtFkY8KwVo7C0kd8V\nG/wXcfUROkkrfzdu5M4VtOHe9Ihwl2SFa/O0d6RNgNMdFUXVTs17zsW/0jnjwet9\nOZ/O3rz7+lYfkbjChAVkgE+ugVzE7M+eapRsQ/HYQiqCn7/RPQjd2ZEoV3lqiYbz\nI3JshQx7RX+Fukx3jSP2wrAVmRZwkrsPPSRIz0uacm/KadczMN79Jb+CqI9aXI1d\nOPsMVNwMvxf2S14mAbs8Nquc9lgZuJn8PIy6SuNPFQKBgQDcXbB49kWXWSZVqjnw\nJ4QcIFIR0dQFYD1ElwKZmMDirpLYb12edm9Sx7uNCVKXy2XooT4KJJBpEsq6SJOn\nikkoDXAsR1mE4t/BzuFtgIt8GT/4C0ADBOPVLl2uoLpi9fB7QQ3fuGmL97ZgVCtu\nWFrJL5nHSZMsV/CN4n1wDWfzzQKBgQDJ8bWFvXNJyzE4uRdHPbc7EdOEPegohZHQ\nhBB8oCSkMJQMJLwLaNddLLgugnHlIUhXjEzp0NBXfErX6ZRUnY4DOre39/AwVaLe\nmHuVKUsvL377jAVZefRREJo8UUx+RRzqv37tbfQONcGBSqKpokNFcV+Rj0dYL7WX\nMjhOhginwwKBgCcqf7MAEl5T+fw/xQxp+ZEGLY/9OzG5aSpHrK6f96hSXscZBAqm\nAiM0XKE0hvlzrSkrf1tOJFyIen+hZpzgdyAnQ0ibZc24hQxtOKO9tQzZcAUl+rqO\no++/zea7qmTsUVGWvmCE5j16SW/VheKW0YvwaeSBryayeo69Mo4308IBAoGALzZ9\nc+kY/RWuSk6rrJI3Nm4yf2Zh0qd3scJOgHSIXIKm+jfUZu55+2SrIuSIcENZwG4i\nxT92lh2O+e+4KBg1zXd64F3tH7/Ftjj8G6Ft3HhEPdc8oPCsOA+jn5p6QcMywYdH\ny4a7Wl8jAHFMmlA/Xgrlhwhya6Gr2M967pDTkTUCgYEAyrf0FiJ2eGQ1PR5jfVS2\nCIrBa7X6JDu3xx0GGRpIcsJeeh5JUo5kDhouueK3ef6vhV8XfrNCoX7fLKJZ3WkM\nOrwM+NfDuM6ZYp5b1+mX0VUqv6AjFQEamimCdyO17N7hq8SVOOFjWdHlg+eHjDse\nNTjvBnxzJyvg1vU0AphQwQo=\n-----END PRIVATE KEY-----\n",
+  "client_email": "hidden-picture-worksheet@auth0-test-project-293906.iam.gserviceaccount.com",
+  "client_id": "114670221485276286528",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hidden-picture-worksheet%40auth0-test-project-293906.iam.gserviceaccount.com"
+}
