@@ -9,14 +9,13 @@ const Worksheet = require("../models/worksheet");
 const Folder = require("../models/folder");
 const User = require("../models/user");
 const Assignment = require("../models/assignment");
-const { validationResult } = require("express-validator");
-const { get } = require("http");
+const {validationResult} = require("express-validator");
+const {get} = require("http");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-      api_key:
-        "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",
+      api_key: process.env.SENDGRID_API_KEY,
     },
   })
 );
@@ -245,6 +244,7 @@ exports.putEditWorksheet = (req, res, next) => {
 exports.deleteWorksheet = async (req, res, next) => {
   const userId = req.headers.userid;
   const worksheetId = req.params.worksheetId;
+  console.log(worksheetId);
 
   try {
     const assignmentsDependingOnWorksheet = await Assignment.find({
@@ -274,7 +274,7 @@ exports.deleteWorksheet = async (req, res, next) => {
     const worksheetResult = await Worksheet.findByIdAndRemove(worksheetId);
     console.log(worksheetResult, "worksheet result");
     const teacher = await User.findById(userId);
-    teacher.worksheets.pull({ _id: worksheetId });
+    teacher.worksheets.pull({_id: worksheetId});
     const teacherResult = await teacher.save();
     res.status(200).json({
       message: "Worksheet deleted.",
@@ -312,7 +312,7 @@ exports.postSendSharedWorksheet = async (req, res, next) => {
       throw error;
     }
 
-    const sharedUser = await User.findOne({ email: sharedEmail });
+    const sharedUser = await User.findOne({email: sharedEmail});
     // check if shared user is a teacher
     // if (sharedUser && !sharedUser.roles.includes("teacher")) {
     //   const error = new Error(
@@ -364,7 +364,7 @@ exports.postSendSharedWorksheet = async (req, res, next) => {
     const sharedWorksheetResult = await existingWorksheet.save();
     const newWorksheetResult = await newWorksheet.save();
 
-    sharingUser.worksheets.pull({ _id: worksheetId });
+    sharingUser.worksheets.pull({_id: worksheetId});
     sharingUser.worksheets.push(newWorksheetResult._id);
     const sharingUserResult = await sharingUser.save();
 
@@ -380,7 +380,7 @@ exports.postSendSharedWorksheet = async (req, res, next) => {
       });
       res
         .status(200)
-        .json({ message: "successfully shared worksheet and sign up link" });
+        .json({message: "successfully shared worksheet and sign up link"});
     } else {
       const result = await transporter.sendMail({
         to: sharedEmail,
@@ -391,7 +391,7 @@ exports.postSendSharedWorksheet = async (req, res, next) => {
                           <a href='http://localhost:3000/accept-worksheet/${worksheetId}'>Accept worksheet!</a>
                       </div>`,
       });
-      res.status(200).json({ message: "successfully shared worksheet" });
+      res.status(200).json({message: "successfully shared worksheet"});
     }
     // send email to existing user with option to join classroom
   } catch (err) {
@@ -482,7 +482,7 @@ exports.postNewFolder = async (req, res, next) => {
     await user.save();
     res
       .status(200)
-      .json({ message: "new folder created!", folder: folderResult });
+      .json({message: "new folder created!", folder: folderResult});
   } catch (err) {
     console.log(err);
   }
@@ -513,10 +513,10 @@ exports.putAddToFolder = async (req, res, next) => {
     console.log(folderResult, worksheetResult);
 
     if (movedItem.type === "folder") {
-      res.status(200).json({ message, updatedFolder: folderResult });
+      res.status(200).json({message, updatedFolder: folderResult});
     }
     if (movedItem.type === "worksheet") {
-      res.status(200).json({ message, updatedWorksheet: worksheetResult });
+      res.status(200).json({message, updatedWorksheet: worksheetResult});
     }
   } catch (err) {
     console.log(err);
@@ -588,14 +588,14 @@ exports.deleteFolder = async (req, res, next) => {
     console.log(foldersToDelete, "foldersToDelete");
 
     foldersToDelete.forEach(async (folder) => {
-      user.folders.pull({ _id: folder }); //TODO: test this!
+      user.folders.pull({_id: folder}); //TODO: test this!
       await Folder.findByIdAndDelete(folder);
     });
 
     console.log(worksheetsToDelete, "worksheetsToDelete");
 
     worksheetsToDelete.forEach(async (worksheet) => {
-      user.worksheets.pull({ _id: worksheet });
+      user.worksheets.pull({_id: worksheet});
       await Worksheet.findByIdAndDelete(worksheet);
     });
 

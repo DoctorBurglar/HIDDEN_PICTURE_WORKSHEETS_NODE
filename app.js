@@ -36,7 +36,7 @@ const fileFilter = (res, file, cb) => {
 mongoose.set("useUnifiedTopology", true);
 
 app.use(bodyParser.json());
-app.use(multer({ fileFilter }).single("mainImage"));
+app.use(multer({fileFilter}).single("mainImage"));
 // app.use("/images", express.static(path.join(__dirname, "/images")));
 
 app.use((req, res, next) => {
@@ -63,16 +63,16 @@ app.use((error, req, res, next) => {
   const message = error.message;
   const data = error.data;
   const isError = true;
-  res.status(status).json({ message, data, isError });
+  res.status(status).json({message, data, isError});
 });
 
 mongoose
   .connect(
-    "mongodb+srv://user1:pickle@cluster0.7jxyn.mongodb.net/worksheets?retryWrites=true&w=majority",
-    { useNewUrlParser: true }
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.7jxyn.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
+    {useNewUrlParser: true}
   )
   .then((result) => {
-    app.listen(8080);
+    app.listen(process.env.PORT || 8080);
   })
   .catch((err) => {
     console.log(err);

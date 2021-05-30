@@ -1,4 +1,9 @@
 ### Node ###
+
+# Google Cloud Storage Credentials and other API details
+auth0-test-project-293906-21c06e3f7b7c.json
+nodemon.json
+
 # Logs
 logs
 *.log
