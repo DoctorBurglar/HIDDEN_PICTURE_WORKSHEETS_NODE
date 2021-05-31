@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const helmet = require("helmet");
-const compression = require(compression());
+const compression = require("compression");
 
 const assignmentsRoutes = require("./routes/assignments");
 const worksheetsRoute = require("./routes/worksheets");
