@@ -3,6 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const multer = require("multer");
+const helmet = require("helmet");
+const compression = require(compression());
 
 const assignmentsRoutes = require("./routes/assignments");
 const worksheetsRoute = require("./routes/worksheets");
@@ -35,8 +37,11 @@ const fileFilter = (res, file, cb) => {
 
 mongoose.set("useUnifiedTopology", true);
 
+app.use(helmet());
+app.use(compression());
+
 app.use(bodyParser.json());
-app.use(multer({fileFilter}).single("mainImage"));
+app.use(multer({ fileFilter }).single("mainImage"));
 // app.use("/images", express.static(path.join(__dirname, "/images")));
 
 app.use((req, res, next) => {
@@ -63,13 +68,13 @@ app.use((error, req, res, next) => {
   const message = error.message;
   const data = error.data;
   const isError = true;
-  res.status(status).json({message, data, isError});
+  res.status(status).json({ message, data, isError });
 });
 
 mongoose
   .connect(
     `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.7jxyn.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
-    {useNewUrlParser: true}
+    { useNewUrlParser: true }
   )
   .then((result) => {
     app.listen(process.env.PORT || 8080);
