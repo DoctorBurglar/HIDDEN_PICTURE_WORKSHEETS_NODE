@@ -11,14 +11,6 @@ const folderSchema = new Schema({
     ref: "User",
     required: true,
   },
-  //   worksheets: {
-  //     type: [Schema.Types.ObjectId],
-  //     ref: "Worksheet",
-  //   },
-  //   folders: {
-  //     type: [Schema.Types.ObjectId],
-  //     ref: "Folder",
-  //   },
   parent: {
     type: Schema.Types.ObjectId,
     ref: "Folder",

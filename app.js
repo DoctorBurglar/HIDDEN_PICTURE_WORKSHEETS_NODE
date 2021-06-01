@@ -13,15 +13,6 @@ const classroomsRoutes = require("./routes/classrooms");
 
 const app = express();
 
-// const fileStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "images");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, new Date().toISOString() + "-" + file.originalname);
-//   },
-// });
-
 const fileFilter = (res, file, cb) => {
   if (
     file.mimetype === "image/png" ||
@@ -42,7 +33,6 @@ app.use(compression());
 
 app.use(bodyParser.json());
 app.use(multer({ fileFilter }).single("mainImage"));
-// app.use("/images", express.static(path.join(__dirname, "/images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
