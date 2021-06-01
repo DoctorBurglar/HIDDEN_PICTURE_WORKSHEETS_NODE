@@ -237,15 +237,6 @@ exports.getStudentWorksheet = async (req, res, next) => {
     console.log(existingScore);
     const assignment = await Assignment.findById(assignmentId);
     if (!existingScore) {
-      //   const answers = {};
-      //   for (let i = 0; i < assignment.worksheet.panelNumber; i++) {
-      //     answers["question" + (i + 1)] = {
-      //       answer: "",
-      //       answerWasAttempted: false,
-      //       showPanel: true,
-      //       isCorrect: false,
-      //     };
-      //   }
       const questionAnswers = assignment.worksheet.questionAnswers;
       const score = new Score({
         assignment: assignmentId,
@@ -255,14 +246,6 @@ exports.getStudentWorksheet = async (req, res, next) => {
       });
 
       const scoreResult = await score.save();
-
-      //   const classroom = await Classroom.findById(assignment.classroomAssigned);
-      //   classroom.students.map(async (studentId) => {
-      //     const student = await User.findById(studentId);
-      //     student.scores.push(result._id);
-      //     await student.save();
-      //   });
-
       assignment.scores.push(scoreResult._id);
       await assignment.save();
       user.scores.push(scoreResult._id);

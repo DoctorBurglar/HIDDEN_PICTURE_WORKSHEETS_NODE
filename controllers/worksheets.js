@@ -9,8 +9,8 @@ const Worksheet = require("../models/worksheet");
 const Folder = require("../models/folder");
 const User = require("../models/user");
 const Assignment = require("../models/assignment");
-const {validationResult} = require("express-validator");
-const {get} = require("http");
+const { validationResult } = require("express-validator");
+const { get } = require("http");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -274,7 +274,7 @@ exports.deleteWorksheet = async (req, res, next) => {
     const worksheetResult = await Worksheet.findByIdAndRemove(worksheetId);
     console.log(worksheetResult, "worksheet result");
     const teacher = await User.findById(userId);
-    teacher.worksheets.pull({_id: worksheetId});
+    teacher.worksheets.pull({ _id: worksheetId });
     const teacherResult = await teacher.save();
     res.status(200).json({
       message: "Worksheet deleted.",
@@ -287,11 +287,6 @@ exports.deleteWorksheet = async (req, res, next) => {
     next(err);
   }
 };
-
-// const clearImage = (filePath) => {
-//   filePath = path.join(__dirname, "..", filePath);
-//   fs.unlink(filePath, (err) => console.log(err));
-// };
 
 exports.postSendSharedWorksheet = async (req, res, next) => {
   // TODO fix this function.  Find a way to make it less convoluted.
@@ -312,15 +307,15 @@ exports.postSendSharedWorksheet = async (req, res, next) => {
       throw error;
     }
 
-    const sharedUser = await User.findOne({email: sharedEmail});
+    const sharedUser = await User.findOne({ email: sharedEmail });
     // check if shared user is a teacher
-    // if (sharedUser && !sharedUser.roles.includes("teacher")) {
-    //   const error = new Error(
-    //     "Not sent- worksheets can only be shared with teachers.  Use the assign button to send to students."
-    //   );
-    //   error.statusCode = 404;
-    //   throw error;
-    // }
+    if (sharedUser && !sharedUser.roles.includes("teacher")) {
+      const error = new Error(
+        "Not sent- worksheets can only be shared with teachers.  Use the assign button to send to students."
+      );
+      error.statusCode = 404;
+      throw error;
+    }
 
     //existingWorksheet is the version that gets shared.  The new copy will be kept by the sharer
     const existingWorksheet = await Worksheet.findById(worksheetId);
@@ -364,7 +359,7 @@ exports.postSendSharedWorksheet = async (req, res, next) => {
     const sharedWorksheetResult = await existingWorksheet.save();
     const newWorksheetResult = await newWorksheet.save();
 
-    sharingUser.worksheets.pull({_id: worksheetId});
+    sharingUser.worksheets.pull({ _id: worksheetId });
     sharingUser.worksheets.push(newWorksheetResult._id);
     const sharingUserResult = await sharingUser.save();
 
@@ -380,7 +375,7 @@ exports.postSendSharedWorksheet = async (req, res, next) => {
       });
       res
         .status(200)
-        .json({message: "successfully shared worksheet and sign up link"});
+        .json({ message: "successfully shared worksheet and sign up link" });
     } else {
       const result = await transporter.sendMail({
         to: sharedEmail,
@@ -391,7 +386,7 @@ exports.postSendSharedWorksheet = async (req, res, next) => {
                           <a href='http://localhost:3000/accept-worksheet/${worksheetId}'>Accept worksheet!</a>
                       </div>`,
       });
-      res.status(200).json({message: "successfully shared worksheet"});
+      res.status(200).json({ message: "successfully shared worksheet" });
     }
     // send email to existing user with option to join classroom
   } catch (err) {
@@ -421,16 +416,7 @@ exports.postAcceptSharedWorksheet = async (req, res, next) => {
       throw error;
     }
     sharedWorksheet.createdBy = googleId;
-    // const newWorksheet = new Worksheet({
-    //   worksheetName: existingWorksheet.worksheetName,
-    //   panelNumber: existingWorksheet.panelNumber,
-    //   mainImageUrl: existingWorksheet.mainImageUrl,
-    //   mainImage: existingWorksheet.mainImage,
-    //   panelImageUrl: existingWorksheet.panelImageUrl,
-    //   questionAnswers: existingWorksheet.questionAnswers,
-    //   createdBy: googleId,
-    //   assignedTo: [],
-    // });
+
     const worksheetResult = await sharedWorksheet.save();
     console.log(worksheetResult, "okay buddy");
     user.worksheets.push(worksheetResult._id);
@@ -482,7 +468,7 @@ exports.postNewFolder = async (req, res, next) => {
     await user.save();
     res
       .status(200)
-      .json({message: "new folder created!", folder: folderResult});
+      .json({ message: "new folder created!", folder: folderResult });
   } catch (err) {
     console.log(err);
   }
@@ -513,10 +499,10 @@ exports.putAddToFolder = async (req, res, next) => {
     console.log(folderResult, worksheetResult);
 
     if (movedItem.type === "folder") {
-      res.status(200).json({message, updatedFolder: folderResult});
+      res.status(200).json({ message, updatedFolder: folderResult });
     }
     if (movedItem.type === "worksheet") {
-      res.status(200).json({message, updatedWorksheet: worksheetResult});
+      res.status(200).json({ message, updatedWorksheet: worksheetResult });
     }
   } catch (err) {
     console.log(err);
@@ -528,12 +514,7 @@ exports.deleteFolder = async (req, res, next) => {
   const userId = req.headers.userid;
   let foldersToDelete = [folderId];
   let worksheetsToDelete = [];
-  // const googleId = req.user.sub.split("|")[1];
-  // let newParentId = null;
-  // if (req.body.newParent) {
-  //   newParentId = req.body.newParent.id;
-  // }
-  // console.log(newParentId);
+
   try {
     const user = await User.findById(userId)
       .select("folders worksheets")
@@ -588,14 +569,14 @@ exports.deleteFolder = async (req, res, next) => {
     console.log(foldersToDelete, "foldersToDelete");
 
     foldersToDelete.forEach(async (folder) => {
-      user.folders.pull({_id: folder}); //TODO: test this!
+      user.folders.pull({ _id: folder }); //TODO: test this!
       await Folder.findByIdAndDelete(folder);
     });
 
     console.log(worksheetsToDelete, "worksheetsToDelete");
 
     worksheetsToDelete.forEach(async (worksheet) => {
-      user.worksheets.pull({_id: worksheet});
+      user.worksheets.pull({ _id: worksheet });
       await Worksheet.findByIdAndDelete(worksheet);
     });
 
@@ -615,32 +596,6 @@ exports.deleteFolder = async (req, res, next) => {
       deletedWorksheets: worksheetsToDelete,
       deletedFolders: foldersToDelete,
     });
-
-    //   user.folders.pull(folderId);
-    //   await user.save();
-
-    //   await Worksheet.updateMany({ parent: folderId }, { parent: newParentId });
-
-    //   await Folder.updateMany({ parent: folderId }, { parent: newParentId });
-
-    //   await Folder.findByIdAndDelete(folderId);
-
-    //   const remainingFolders = await User.findById(userId)
-    //     .select("folders")
-    //     .populate({
-    //       path: "folders",
-    //       model: "Folder",
-    //     });
-
-    //   const updatedWorksheets = await Worksheet.find({
-    //     createdBy: userId,
-    //   }).select("worksheetName parent");
-
-    //   res.status(200).json({
-    //     message: "removed",
-    //     folders: remainingFolders,
-    //     worksheetNames: updatedWorksheets,
-    //   });
   } catch (err) {
     console.log(err);
   }

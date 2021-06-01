@@ -31,59 +31,13 @@ exports.getCheckClassroomCode = async (req, res, next) => {
   }
 };
 
-// exports.postCreateStudent = async (req, res, next) => {
-//   let classroomToJoin;
-//   //   if (req.body.classroomToJoin) {
-//   //     classroomToJoin = req.body.classroomToJoin;
-//   //   }
-//   console.log("goose!!!");
-//   const userId = req.user.sub.split("|")[1];
-//   const name = req.user["https://hiddenpicturetest.com/name"];
-//   const email = req.user["https://hiddenpicturetest.com/email"];
-//   const profilePicture = req.user["https://hiddenpicturetest.com/picture"];
-//   const roles = req.user["https://hiddenpicturetest.com/roles"];
-
-//   try {
-//     const user = await User.findOne({ googleId: userId });
-//     if (!user) {
-//       let classroomCode = null;
-//       if (roles.includes("teacher")) {
-//         classroomCode = createClassroomCode(6);
-//       }
-//       const user = new User({
-//         googleId: userId,
-//         name,
-//         email,
-//         roles,
-//         worksheets: [],
-//         profilePicture,
-//         assigned: [],
-//         classroomCode,
-//         classroomJoined: classroomToJoin,
-//       });
-//       const result = await user.save();
-//       console.log(result);
-//       res.status(200).json({
-//         message: "created new user successfully",
-//         classroomCode,
-//       });
-//     } else {
-//       res.status(200).json({
-//         message: "confirmed user exists",
-//         classroomCode: user.classroomCode,
-//       });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 exports.postCreateUser = async (req, res, next) => {
   const userId = req.user.sub.split("|")[1];
   const name = req.user["https://hiddenpicturetest.com/name"];
   const email = req.user["https://hiddenpicturetest.com/email"];
   const profilePicture = req.user["https://hiddenpicturetest.com/picture"];
   const roles = req.user["https://hiddenpicturetest.com/roles"];
+  console.log(roles);
 
   let classroom = null;
   let teacher;
@@ -112,10 +66,6 @@ exports.postCreateUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ googleId: userId });
     if (!user) {
-      // let classroomCode = null;
-      // if (roles.includes("teacher")) {
-      //   classroomCode = createClassroomCode(6);
-      // }
       const user = new User({
         googleId: userId,
         name,
@@ -186,91 +136,3 @@ exports.postCreateUser = async (req, res, next) => {
     console.log(err);
   }
 };
-
-// exports.signup = (req, res, next) => {
-//   console.log("hello");
-//   const errors = validationResult(req);
-//   if (!errors.isEmpty()) {
-//     const error = new Error("validation failed");
-//     error.statusCode = 422;
-//     error.data = errors.array();
-//     throw error;
-//   }
-//   const email = req.body.email;
-//   const password = req.body.password;
-//   const name = req.body.name;
-//   const isTeacher = req.body.isTeacher;
-//   bcrypt
-//     .hash(password, 12)
-//     .then((hashedPassword) => {
-//       const user = new User({
-//         email,
-//         name,
-//         password: hashedPassword,
-//         isTeacher,
-//       });
-//       return user.save();
-//     })
-//     .then((result) => {
-//       res
-//         .status(201)
-//         .json({ message: "user created successfully", userId: result._id })
-//         .catch((err) => {
-//           if (!err.statusCode) {
-//             err.statusCode = 500;
-//           }
-//           next(err);
-//         });
-//     });
-// };
-
-// exports.login = (req, res, next) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
-//   let loadedUser;
-//   User.findOne({ email: email })
-//     .then((user) => {
-//       if (!user) {
-//         const error = new Error("Couldn't find a user with that email");
-//         error.statusCode = 401;
-//         throw error;
-//       }
-//       loadedUser = user;
-//       return bcrypt.compare(password, user.password);
-//     })
-//     .then((isEqual) => {
-//       if (!isEqual) {
-//         const error = new Error("Wrong password");
-//         error.statusCode = 401;
-//         throw error;
-//       }
-//       const token = jwt.sign(
-//         {
-//           email: loadedUser.email,
-//           userId: loadedUser._id.toString(),
-//         },
-//         "babybelugainthedeepblueseayouswimsowildandyouswimsofree",
-//         { expiresIn: "1h" }
-//       );
-//       res.status(200).json({
-//         message: "login successful!",
-//         token,
-//         userId: loadedUser._id.toString(),
-//       });
-//     })
-//     .catch((err) => {
-//       if (!err.statusCode) {
-//         err.statusCode = 500;
-//       }
-//       next(err);
-//     });
-// };
-
-// const createClassroomCode = (length) => {
-//   let chars = "abcdefghijklmnopqrstuvwxyz123456789";
-//   let codeArray = [];
-//   for (let i = 0; i < length; i++) {
-//     codeArray[i] = chars[Math.floor(Math.random() * 35)];
-//   }
-//   return codeArray.join("");
-// };

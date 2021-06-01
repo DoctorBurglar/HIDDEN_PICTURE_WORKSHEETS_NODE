@@ -93,13 +93,6 @@ router.post(
   worksheetController.postNewFolder
 );
 
-// router.get(
-//   "/open-folder/:folderId",
-//   checkJwt,
-//   checkIsTeacher,
-//   worksheetController.getOpenFolder
-// );
-
 router.put(
   "/add-to-folder",
   checkJwt,
