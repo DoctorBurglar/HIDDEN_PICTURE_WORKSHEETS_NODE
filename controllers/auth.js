@@ -1,19 +1,19 @@
-const { validationResult } = require("express-validator");
+const {validationResult} = require("express-validator");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 const Classroom = require("../models/classroom");
-const { create } = require("../models/user");
-const { json } = require("body-parser");
+const {create} = require("../models/user");
+const {json} = require("body-parser");
 
 exports.getCheckClassroomCode = async (req, res, next) => {
   console.log("hello buddy");
   const classroomCode = req.params.classroomCode;
   console.log(classroomCode);
   try {
-    const classroom = await Classroom.findOne({ code: classroomCode });
+    const classroom = await Classroom.findOne({code: classroomCode});
     if (!classroom) {
       res.status(404).json({
         message: "Invalid classroom code",
@@ -89,10 +89,10 @@ exports.postCreateUser = async (req, res, next) => {
   let teacher;
 
   // check if joining a classroom
-  if (req.body.classroomToJoin) {
-    classroomToJoin = req.body.classroomToJoin;
+  if (req.body.data.classroomToJoin) {
+    classroomToJoin = req.body.data.classroomToJoin;
     try {
-      classroom = await Classroom.findOne({ code: classroomToJoin });
+      classroom = await Classroom.findOne({code: classroomToJoin});
       if (!classroom) {
         const error = new Error("No classroom found, invalid code");
         error.statusCode = 404;
@@ -110,7 +110,7 @@ exports.postCreateUser = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findOne({ googleId: userId });
+    const user = await User.findOne({googleId: userId});
     if (!user) {
       // let classroomCode = null;
       // if (roles.includes("teacher")) {

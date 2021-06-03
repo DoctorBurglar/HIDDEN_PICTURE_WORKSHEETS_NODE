@@ -1,4 +1,4 @@
-const { validationResult } = require("express-validator");
+const {validationResult} = require("express-validator");
 
 const User = require("../models/user");
 const Classroom = require("../models/classroom");
@@ -59,7 +59,7 @@ exports.getAssignments = async (req, res, next) => {
   console.log("get those assignments!!");
   const userId = req.headers.userid;
   try {
-    const assignments = await Assignment.find({ teacher: userId })
+    const assignments = await Assignment.find({teacher: userId})
       .populate({
         path: "scores",
         model: "Score",
@@ -74,7 +74,7 @@ exports.getAssignments = async (req, res, next) => {
       });
     res
       .status(200)
-      .json({ message: "successfully retreived assignments", assignments });
+      .json({message: "successfully retreived assignments", assignments});
   } catch (err) {
     console.log(err);
   }
@@ -83,6 +83,7 @@ exports.getAssignments = async (req, res, next) => {
 exports.postCreateAssignment = async (req, res, next) => {
   console.log(req.body.dueDate);
   const dueDate = new Date(req.body.dueDate).getTime();
+  console.log;
   const assignmentName = req.body.assignmentName;
   const worksheet = req.body.worksheet;
   const classroomAssigned = req.body.classroomAssigned;
@@ -302,7 +303,7 @@ exports.putUpdateStudentAnswers = async (req, res, next) => {
     } else {
       score.questionAnswers = questionAnswers;
       const result = await score.save();
-      res.status(200).json({ message: "Answers saved!" });
+      res.status(200).json({message: "Answers saved!"});
     }
   } catch (err) {
     console.log(err);
@@ -315,7 +316,7 @@ exports.deleteAssignment = async (req, res, next) => {
 
   // When assignments are deleted, delete associated Scores (in 2 places: Scores and Student.scores)
   try {
-    const assignmentScores = await Score.find({ assignment: assignmentId });
+    const assignmentScores = await Score.find({assignment: assignmentId});
     if (!assignmentScores) {
       const error = new Error("Failed to find associated scores");
       error.statusCode = 404;
@@ -329,7 +330,7 @@ exports.deleteAssignment = async (req, res, next) => {
       const studentResult = await student.save();
       console.log(studentResult);
     }
-    const scoreResult = await Score.deleteMany({ assignment: assignmentId });
+    const scoreResult = await Score.deleteMany({assignment: assignmentId});
     console.log(scoreResult);
     const assignmentResult = await Assignment.findByIdAndDelete(assignmentId);
     console.log(assignmentResult);
@@ -351,7 +352,7 @@ exports.putEditAssignmentName = async (req, res, next) => {
     result = await assignment.save();
     res
       .status(200)
-      .json({ message: "edited name", assignmentName: result.assignmentName });
+      .json({message: "edited name", assignmentName: result.assignmentName});
   } catch (err) {
     console.log(err);
   }
