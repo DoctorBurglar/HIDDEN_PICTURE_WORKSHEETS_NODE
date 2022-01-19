@@ -37,7 +37,7 @@ exports.postCreateUser = async (req, res, next) => {
   const email = req.user["https://hiddenpicturetest.com/email"];
   const profilePicture = req.user["https://hiddenpicturetest.com/picture"];
   const roles = req.user["https://hiddenpicturetest.com/roles"];
-  console.log(roles);
+  console.log(roles, req.body);
 
   let classroom = null;
   let teacher;

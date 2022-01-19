@@ -10,6 +10,7 @@ const assignmentsRoutes = require("./routes/assignments");
 const worksheetsRoute = require("./routes/worksheets");
 const authRoutes = require("./routes/auth");
 const classroomsRoutes = require("./routes/classrooms");
+const cors = require("cors");
 
 const app = express();
 
@@ -32,20 +33,22 @@ app.use(helmet());
 app.use(compression());
 
 app.use(bodyParser.json());
-app.use(multer({ fileFilter }).single("mainImage"));
+app.use(multer({fileFilter}).single("mainImage"));
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, userId"
-  );
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Content-Type, Authorization, userId"
+//   );
+//   next();
+// });
+
+app.use(cors());
 
 app.use(worksheetsRoute);
 app.use("/auth", authRoutes);
@@ -58,13 +61,13 @@ app.use((error, req, res, next) => {
   const message = error.message;
   const data = error.data;
   const isError = true;
-  res.status(status).json({ message, data, isError });
+  res.status(status).json({message, data, isError});
 });
 
 mongoose
   .connect(
     `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.7jxyn.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
-    { useNewUrlParser: true }
+    {useNewUrlParser: true}
   )
   .then((result) => {
     app.listen(process.env.PORT || 8080);
