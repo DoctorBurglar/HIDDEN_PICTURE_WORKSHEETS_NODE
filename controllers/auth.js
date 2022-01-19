@@ -43,7 +43,7 @@ exports.postCreateUser = async (req, res, next) => {
   let teacher;
 
   // check if joining a classroom
-  if (req.body.data.classroomToJoin) {
+  if (req.body.data && req.body.data.classroomToJoin) {
     classroomToJoin = req.body.data.classroomToJoin;
     try {
       classroom = await Classroom.findOne({code: classroomToJoin});
