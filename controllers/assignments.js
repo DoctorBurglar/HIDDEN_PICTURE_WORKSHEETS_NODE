@@ -81,9 +81,8 @@ exports.getAssignments = async (req, res, next) => {
 };
 
 exports.postCreateAssignment = async (req, res, next) => {
-  console.log(req.body.dueDate);
   const dueDate = new Date(req.body.dueDate).getTime();
-  console.log;
+
   const assignmentName = req.body.assignmentName;
   const worksheet = req.body.worksheet;
   const classroomAssigned = req.body.classroomAssigned;
@@ -157,8 +156,12 @@ exports.postCreateAssignment = async (req, res, next) => {
       const scoreResult = await score.save();
       scoresForAssignment.push(scoreResult._id);
       const studentInClassroom = await User.findById(student);
+      if (!studentInClassroom) {
+        throw new Error({message: "Couldn't find student", statusCode: 404});
+      }
       studentInClassroom.scores.push(scoreResult._id);
       await studentInClassroom.save();
+      console.log(studentInClassroom);
     }
 
     console.log(scoresForAssignment);
@@ -324,8 +327,16 @@ exports.deleteAssignment = async (req, res, next) => {
     }
 
     for (let score of assignmentScores) {
+      console.log(score);
       const studentId = score.student;
       const student = await User.findById(studentId);
+      console.log("student=", student);
+      if (!student) {
+        throw new Error({
+          message: "failed to find student to remove score",
+          statusCode: 404,
+        });
+      }
       student.scores.pull(score._id);
       const studentResult = await student.save();
       console.log(studentResult);
