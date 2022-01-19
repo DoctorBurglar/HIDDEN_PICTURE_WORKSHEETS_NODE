@@ -17,7 +17,7 @@ exports.getClassrooms = async (req, res, next) => {
     console.log(classrooms, "yeah");
     res
       .status(200)
-      .json({ message: "successfully retreived classrooms", classrooms });
+      .json({message: "successfully retreived classrooms", classrooms});
   } catch (err) {
     console.log(err);
   }
@@ -40,7 +40,7 @@ exports.postCreateClassroom = async (req, res, next) => {
     const result = await teacher.save();
     await classroom.save();
     console.log(result);
-    res.status(200).json({ message: "hello!", classroom });
+    res.status(200).json({message: "hello!", classroom});
   } catch (err) {
     console.log(err);
   }
@@ -61,14 +61,14 @@ exports.deleteClassroom = async (req, res, next) => {
       throw error;
     }
     const teacher = await User.findById(userId);
-    teacher.classroomsAsTeacher.pull({ _id: classroomId });
+    teacher.classroomsAsTeacher.pull({_id: classroomId});
     const teacherResult = await teacher.save();
     //
-    const classroomResult = await Classroom.deleteOne({ _id: classroomId });
+    const classroomResult = await Classroom.deleteOne({_id: classroomId});
     // console.log(classroomResult);
     const studentResult = await User.updateMany(
-      { classroomsAsStudent: classroomId },
-      { $pull: { classroomsAsStudent: classroomId } }
+      {classroomsAsStudent: classroomId},
+      {$pull: {classroomsAsStudent: classroomId}}
     );
     console.log(studentResult, "2222222222222");
     res.status(200).json({
@@ -91,7 +91,7 @@ exports.getStudents = async (req, res, next) => {
       classroomsAsStudent: classroomId,
     }).select("name email profilePicture");
     console.log(students, "1111");
-    res.json({ message: "Successfully retreived students", students });
+    res.json({message: "Successfully retreived students", students});
   } catch (err) {
     console.log(err);
   }
@@ -99,8 +99,8 @@ exports.getStudents = async (req, res, next) => {
 
 exports.deleteStudent = async (req, res, next) => {
   const userId = req.user.sub.split("|")[1];
-  const studentToDeleteId = req.body.id;
-  const classroomToRemoveStudentFromId = req.body.classroomId;
+  const studentToDeleteId = req.body.data.id;
+  const classroomToRemoveStudentFromId = req.body.data.classroomId;
   console.log(studentToDeleteId, classroomToRemoveStudentFromId);
   try {
     const classroom = await Classroom.findOne({
@@ -108,12 +108,12 @@ exports.deleteStudent = async (req, res, next) => {
     });
     const result = await classroom.students.pull(studentToDeleteId);
     await classroom.save();
-    const student = await User.findOne({ _id: studentToDeleteId });
-    student.classroomsAsStudent.pull({ _id: classroomToRemoveStudentFromId });
+    const student = await User.findOne({_id: studentToDeleteId});
+    student.classroomsAsStudent.pull({_id: classroomToRemoveStudentFromId});
     await student.save();
     res
       .status(200)
-      .json({ message: "Student successfully removed from classrooom" });
+      .json({message: "Student successfully removed from classrooom"});
   } catch (err) {
     console.log(err);
   }
@@ -127,7 +127,7 @@ const createClassroomCode = async (length) => {
   }
   const code = codeArray.join("");
   try {
-    const classroom = await Classroom.findOne({ code: code });
+    const classroom = await Classroom.findOne({code: code});
     console.log(classroom);
     if (!classroom) {
       return code;
