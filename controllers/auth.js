@@ -14,11 +14,15 @@ exports.getCheckClassroomCode = async (req, res, next) => {
   console.log(classroomCode);
   try {
     const classroom = await Classroom.findOne({code: classroomCode});
+    console.log(classroom);
     if (!classroom) {
-      res.status(404).json({
-        message: "Invalid classroom code",
-        codeIsValid: false,
-      });
+      const error = new Error("Invalid Classroom Code");
+      error.statusCode = 404;
+      throw error;
+      // res.status(404).json({
+      //   message: "Invalid classroom code",
+      //   codeIsValid: false,
+      // });
     } else {
       console.log("yeah buddy");
       res.status(200).json({
@@ -27,7 +31,7 @@ exports.getCheckClassroomCode = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 

@@ -35,19 +35,6 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(multer({fileFilter}).single("mainImage"));
 
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Content-Type, Authorization, userId"
-//   );
-//   next();
-// });
-
 app.use(cors());
 
 app.use(worksheetsRoute);
@@ -56,7 +43,7 @@ app.use(classroomsRoutes);
 app.use(assignmentsRoutes);
 
 app.use((error, req, res, next) => {
-  console.log(error);
+  console.log("error =", error);
   const status = error.statusCode || 500;
   const message = error.message;
   const data = error.data;
