@@ -98,9 +98,10 @@ exports.getStudents = async (req, res, next) => {
 };
 
 exports.deleteStudent = async (req, res, next) => {
-  const userId = req.user.sub.split("|")[1];
-  const studentToDeleteId = req.body.data.id;
-  const classroomToRemoveStudentFromId = req.body.data.classroomId;
+  console.log("body", req.body);
+
+  const studentToDeleteId = req.body.id;
+  const classroomToRemoveStudentFromId = req.body.classroomId;
   console.log(studentToDeleteId, classroomToRemoveStudentFromId);
   try {
     const classroom = await Classroom.findOne({
